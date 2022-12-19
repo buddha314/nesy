@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.feature {
+  color: green;
+}
+
+.feature:hover {
+  border-right: 3px solid salmon;
+}

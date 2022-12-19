@@ -2,50 +2,63 @@ import './App.css';
 import React, {Component} from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import * as d3 from 'd3';
+//import * as d3 from 'd3';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       criteria: '',
-      criteriaArray: []
+      criteriaArray: [],
+      featureArray: []
     }
     this.setCriteria = this.setCriteria.bind(this);
     this.myRef = React.createRef;
+    this.snipCriteria = this.snipCriteria.bind(this);
+    this.renderSVG = this.renderSVG.bind(this);
+    this.featureSpan = this.featureSpan.bind(this);
   }
 
   setCriteria (event) {
     event.preventDefault() ;
     console.log("setting criteria");
-    let arr = '<span>' + this.element.value.split(' ').join('</span><span>') + '</span>';
-    /*
     this.element.value.split(' ').forEach((x) => {
-      this.state.criteriaArray.push(<h3 className='feature'>{x}</h3>)
+      this.state.criteriaArray.push(x)
     })
-     */
-    this.setState({criteria: this.element.value, criteriaArray: this.element.value.split(' ')})
+    this.setState({criteria: this.element.value})
+    console.log(this.state.criteriaArray);
+    this.renderSVG();
+  }
+
+  featureSpan (x, i) {
+    return(
+      <span className="feature" id={'feature-' + i.toString()} onClick={(e) => {this.snipCriteria(e)}} >
+        {x}
+      </span>
+    )
+  }
+
+renderSVG () {
+    if (this.state.criteriaArray.length > 0) {
+      this.state.criteriaArray.forEach((x, i) => {
+        this.state.featureArray.push(this.featureSpan(x,i));
+      })
+    }
+  }
+
+  snipCriteria(el) {
+    // element id is in el.target.id
+    let idx = el.target.id.split('-')[1];
+    console.log("SNIP SNIP!");
+    console.log(el.target.id);
+    console.log(this.state.criteriaArray[idx]);
   }
 
   componentDidMount() {
     console.log("Mounting!!");
     console.log(this.myRef);
-    d3.select('#wksp')
-      .append('p')
-      .text('Hello from D3');
-    let svg = d3.select('#wksp')
-      .append('svg')
-      .attr('width', 500)
-      .attr('height', 500);
-    
-    svg.selectAll('rect')
-      .data(this.state.criteriaArray)
-      .enter()
-      .append('rect')
-      .attr('x', (d,i) => 5 + i*(95+5) )
-      .attr('y', d=> 500-d)
-      .attr('height', d=>d)
-      .attr('fill', 'teal')
+    console.log(this.state.criteriaArray)
   }
 
   render () {
@@ -62,8 +75,10 @@ class App extends Component {
             <Col>
               <p>Workspace</p>
               <div>{this.state.criteriaArray}</div>
-              <div id="wksp"></div>
             </Col>
+          </Row>
+          <Row>
+            <div id="wksp">{this.state.featureArray}</div>
           </Row>
       </Container>
     );

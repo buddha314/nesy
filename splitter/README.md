@@ -1,3 +1,36 @@
+# Splitter
+Mess around with splitting / annotating text in what is likely to be a cool way.
+
+### Some D3
+
+I fucked w/ D3 + react, then set aside the D3.  I just want to preserve it here.
+Based on [this](https://medium.com/@varvara.munday/d3-in-react-a-step-by-step-tutorial-cba33ce000ce)
+
+```
+      d3.select('#wksp')
+        .append('p')
+        .text('Hello from D3');
+      let svg = d3.select('#wksp')
+        .append('svg')
+        .attr('width', 500)
+        .attr('height', 500);
+
+      svg.selectAll('rect')
+        .data(this.state.criteriaArray)
+        .enter()
+        .append('rect')
+        .attr('x', (d,i) => 5 + i*(25) )
+        .attr('y', (d,i) => 300 -(10 * i))
+        .attr('width', 25)
+        .attr('height', (d,i) => 10*(i+1))
+        .attr('fill', 'teal');
+      } else {
+        console.log("gimme data");
+      }
+
+```
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
