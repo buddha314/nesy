@@ -2,6 +2,9 @@ import './App.css';
 import React, {Component} from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {LGraph, LGraphCanvas, LiteGraph} from 'litegraph.js';
+import 'litegraph.js';
+import 'litegraph.js/css/litegraph.css';
 //import * as d3 from 'd3';
 
 
@@ -59,6 +62,25 @@ renderSVG () {
     console.log("Mounting!!");
     console.log(this.myRef);
     console.log(this.state.criteriaArray)
+
+    var graph = new LGraph();
+
+    var canvas = new LGraphCanvas("#mycanvas", graph);
+
+    var node_const = LiteGraph.createNode("basic/const");
+    node_const.pos = [200,200];
+    graph.add(node_const);
+    node_const.setValue(4.5);
+
+    var node_watch = LiteGraph.createNode("basic/watch");
+    node_watch.pos = [700,200];
+    graph.add(node_watch);
+
+    node_const.connect(0, node_watch, 0 );
+
+    graph.start()
+
+
   }
 
   render () {
@@ -80,6 +102,10 @@ renderSVG () {
           <Row>
             <div id="wksp">{this.state.featureArray}</div>
           </Row>
+        <div>
+        <canvas  id='mycanvas' style={{height: '80vh',  border: 'solid 5px'}}></canvas>
+
+        </div>
       </Container>
     );
   }
